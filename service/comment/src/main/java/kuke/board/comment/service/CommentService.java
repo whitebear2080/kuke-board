@@ -4,10 +4,13 @@ import jakarta.transaction.Transactional;
 import kuke.board.comment.entity.Comment;
 import kuke.board.comment.repository.CommentRepository;
 import kuke.board.comment.service.request.CommentCreateRequest;
+import kuke.board.comment.service.response.CommentPageResponse;
 import kuke.board.comment.service.response.CommentResponse;
 import kuke.board.common.snowflake.Snowflake;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static java.util.function.Predicate.not;
 
@@ -20,7 +23,7 @@ public class CommentService {
     @Transactional
     public CommentResponse create(CommentCreateRequest request) {
         Comment parent = findParent(request);
-        Comment comment  = commentRepository.save(
+        Comment comment = commentRepository.save(
                 Comment.create(
                         snowflake.nextId()
                         , request.getContent()
@@ -34,7 +37,7 @@ public class CommentService {
 
     private Comment findParent(CommentCreateRequest request) {
         Long parentCommentId = request.getParentCommentId();
-        if ( parentCommentId == null) {
+        if (parentCommentId == null) {
             return null;
         }
         return commentRepository.findById(parentCommentId)
@@ -75,4 +78,23 @@ public class CommentService {
                     .ifPresent(this::delete);
         }
     }
+
+    public CommentPageResponse readAll(Long articleId, Long page, Long pageSize) {
+        return CommentPageResponse.of(
+                commentRepository.findAll(articleId, (page - 1) * pageSize, pageSize).stream()
+                        .map(CommentResponse::from)
+                        .toList(),
+                commentRepository.count(articleId, PageLimitCalculator.calculatePageLimit(page, pageSize, 10L))
+        );
+    }
+
+    public List<CommentResponse> readAll(Long articleId, Long lastParentCommentId, Long lastCommentId, Long limit) {
+        List<Comment> comments = lastParentCommentId == null || lastCommentId == null ?
+                commentRepository.findAllInfiniteScroll(articleId, limit) :
+                commentRepository.findAllInfiniteScroll(articleId, lastParentCommentId, lastCommentId, limit);
+        return comments.stream()
+                .map(CommentResponse::from)
+                .toList();
+    }
+
 }
