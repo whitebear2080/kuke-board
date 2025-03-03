@@ -1,6 +1,12 @@
 # kuke-board
 ### MSA 게시판
 
+**대규모 데이터와 트래픽을 지탱할 수 있는 시스템을 고려한다.**
+
+**사용자 로그인, 데이터 유효성 검증, 웹 프론트 화면 개발 등 제거**
+
+**대규모 데이터와 트래픽을 다루기 위한 핵심 전략만 다룬다.**
+
 **service : 하위 모듈로 각 마이크로서비스를 가진다.** 
    - article : 게시글 서비스
    - comment : 댓글 서비스
@@ -37,8 +43,16 @@
 - 게시글 목록 조회 최적화 전략
 - 캐시 최적화 전략
 
-**대규모 데이터와 트래픽을 지탱할 수 있는 시스템을 고려한다.**
+**RDB : mysql (도커)**
+- $ docker pull mysql:8.0.38
+- $ docker images
+- $ docker run --name kuke-board-mysql -e MYSQL_ROOT_PASSWORD={password} -d -p 3306:3306 mysql:8.0.38
+- $ docker ps -a
+- $ docker start {CONTAINER ID}
+- $ docker exec -it kuke-board-mysql bash
+- bash-5.1# mysql -u root -p
+- Enter password: {password}
+- mysql> show databases;
+- mysql> use {database};
+- mysql> show tables;
 
-**사용자 로그인, 데이터 유효성 검증, 웹 프론트 화면 개발 등 제거**
-
-**대규모 데이터와 트래픽을 다루기 위한 핵심 전략만 다룬다.**
