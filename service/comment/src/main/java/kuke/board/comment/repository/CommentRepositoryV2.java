@@ -21,8 +21,8 @@ public interface CommentRepositoryV2 extends JpaRepository<CommentV2, Long> {
             nativeQuery = true
     )
     Optional<String> findDescendantsTopPath(
-            @Param("articleId") Long articleId
-            , @Param("pathPrefix") String pathPrefix
+            @Param("articleId") Long articleId,
+            @Param("pathPrefix") String pathPrefix
     );
 
     @Query(
@@ -36,9 +36,9 @@ public interface CommentRepositoryV2 extends JpaRepository<CommentV2, Long> {
             nativeQuery = true
     )
     List<CommentV2> findAll(
-            @Param("articleId") Long articleId
-            , @Param("offset") Long offset
-            , @Param("limit") Long limit
+            @Param("articleId") Long articleId,
+            @Param("offset") Long offset,
+            @Param("limit") Long limit
     );
 
     @Query(
@@ -81,5 +81,4 @@ public interface CommentRepositoryV2 extends JpaRepository<CommentV2, Long> {
             @Param("lastPath") String lastPath,
             @Param("limit") Long limit
     );
-
 }

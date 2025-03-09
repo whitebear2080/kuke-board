@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentV2 {
-
     @Id
     private Long commentId;
     private String content;
