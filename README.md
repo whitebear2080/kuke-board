@@ -43,7 +43,7 @@
 - 게시글 목록 조회 최적화 전략
 - 캐시 최적화 전략
 
-**RDB : mysql (도커)**
+**Mysql**
 - $ docker pull mysql:8.0.38
 - $ docker images
 - $ docker run --name kuke-board-mysql -e MYSQL_ROOT_PASSWORD={password} -d -p 3306:3306 mysql:8.0.38
@@ -56,3 +56,5 @@
 - mysql> use {database};
 - mysql> show tables;
 
+**Redis**
+- $ docker run --name kuke-board-redis -d -p 6379:6379 redis:7.4
