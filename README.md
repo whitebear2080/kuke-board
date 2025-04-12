@@ -59,3 +59,19 @@
 
 ***Redis***
 - $ docker run --name kuke-board-redis -d -p 6379:6379 redis:7.4
+- $ docker start {CONTAINER ID}
+
+***Kafka***
+- $ docker run -d --name kuke-board-kafka -p 9092:9092 apache/kafka:3.8.0
+- $ docker ps
+- $ docker exec -it kuke-board-kafka sh
+- $ cd /opt/kafka/bin
+- 토픽 생성
+  - kuke-board-article
+  - kuke-board-comment
+  - kuke-board-like
+  - kuke-board-view
+- $ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kuke-board-article --replication-factor 1 --partitions 3
+- $ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kuke-board-comment --replication-factor 1 --partitions 3
+- $ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kuke-board-like --replication-factor 1 --partitions 3
+- $ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kuke-board-view --replication-factor 1 --partitions 3
